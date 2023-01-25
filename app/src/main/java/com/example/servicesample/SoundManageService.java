@@ -9,8 +9,12 @@ import android.util.Log;
 import java.io.IOException;
 
 
-//音の再生だけならUIの操作は必要ないので、
+// 音の再生だけならUIの操作は必要ないので、
 //UIスレッドとは独立しtサービス単体で再生できる。
+//通知もUIスレッドとは独立して表示させることができる。
+//マニフェストで android:process 属性による指定をしなければ
+//サービスはアプリと同じプロセスで実行される。
+//サービスを別のプロセスとして分離することもできる。
 
 public class SoundManageService extends Service {
 
@@ -61,6 +65,8 @@ public class SoundManageService extends Service {
         super.onDestroy();
     }//onDestroy
 
+    //このメソッドは static にできる
+    //なぜか考えてみよう。
     private class PlayerPreparedListener
             implements MediaPlayer.OnPreparedListener {
 
