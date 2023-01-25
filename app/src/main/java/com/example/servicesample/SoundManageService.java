@@ -3,6 +3,7 @@ package com.example.servicesample;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -40,8 +41,12 @@ public class SoundManageService extends Service {
         String mediaFileUriStr =
                 "android.resource://" + getPackageName() + "/"
                         + R.raw.mountain_stream;
+        Uri mediaFileUri = Uri.parse(mediaFileUriStr);
         try {
-            _player.setDataSource(mediaFileUriStr);
+            //
+            _player.setDataSource
+                    (SoundManageService.this,
+                            mediaFileUri);
             _player.setOnPreparedListener
                     (new PlayerPreparedListener());
             _player.setOnCompletionListener
@@ -65,9 +70,8 @@ public class SoundManageService extends Service {
         super.onDestroy();
     }//onDestroy
 
-    //このメソッドは static にできる
-    //なぜか考えてみよう。
-    private class PlayerPreparedListener
+    //このクラスはstaticにできる。
+    private static class PlayerPreparedListener
             implements MediaPlayer.OnPreparedListener {
 
         @Override
