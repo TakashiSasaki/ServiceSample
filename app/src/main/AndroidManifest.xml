@@ -12,10 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ServiceSample"
         tools:targetApi="31">
+
+        <!-- アプリがサービスを持つことをマニフェストで明示している -->
+        <!-- exported="false"なので他のアプリからは触れない -->
         <service
             android:name=".SoundManageService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
