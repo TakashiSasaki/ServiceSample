@@ -143,6 +143,10 @@ public class SoundManageService extends Service {
                     .from(SoundManageService.this)
                     .notify(100, n);
             //nもb.build()で代替したほうが見やすい
+            //notifyの第一引数はこの通知を識別するための番号。
+            //同じアプリから同じ通知を複数回出すことがあるので。
+            //本アプリでは固定値で良いので 100 としている。
+            //あとからこの通知を取り消したりしないので固定値で良い。
 
             //再生を停止する
             //ここはMediaPlayer.OnCompletionListenerインターフェイスの中
