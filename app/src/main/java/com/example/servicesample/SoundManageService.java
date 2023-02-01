@@ -3,13 +3,14 @@ package com.example.servicesample;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
 import android.util.Log;
+
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -98,14 +99,40 @@ public class SoundManageService extends Service {
         //super.onDestroy();
     }//onDestroy
 
-    //このクラスはstaticにできる。
-    private static class PlayerPreparedListener
+    private class PlayerPreparedListener
             implements MediaPlayer.OnPreparedListener {
 
         @Override
         public void onPrepared(MediaPlayer mp) {
 
             mp.start();
+
+            //再生準備が整ったときにも通知を出そう。教科書 p.320
+            //リスナクラスを static にしているとビルダに渡せないので注意。
+            NotificationCompat.Builder b
+                    = new NotificationCompat.Builder(
+                    SoundManageService.this,
+                    CHANNEL_ID)
+                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                    .setContentTitle(getString(R.string.msg_notification_title_start))
+                    .setContentText(getString(R.string.msg_notification_text_start));
+
+            Intent i = new Intent(
+                    SoundManageService.this,
+                    MainActivity.class)
+                    .putExtra("fromNotification", true);
+            //インテントにputExtraで格納したデータは受け取る側のアクティビティで使える
+            //具体的にはアクティビティのonCreateでgetIntentすれば受け取ることができる。
+
+            PendingIntent p = PendingIntent.getActivity
+                    (SoundManageService.this, 0, i,
+                            PendingIntent.FLAG_CANCEL_CURRENT);
+
+            b.setContentIntent(p)
+                    .setAutoCancel(true);
+
+            startForeground(200, b.build());
+
         }//onPrepared
     }//PlayerPreparedListener class
 

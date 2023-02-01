@@ -12,6 +12,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //もしfromNotificationをエクストラに持つインテントで起動されたならtrueになる
+        //それ以外、例えばホーム画面から起動されたならfalseになる
+        boolean fromNotification =
+                getIntent().getBooleanExtra("fromNotification", false);
+
+        if (fromNotification) {
+            //ここに来るのは再生中に表示される通知からアクティビティに戻ってきた時だけ
+            //すでに再生中のはずなので再生ボタンを無効に、停止ボタンを有効にする。
+            findViewById(R.id.btPlay).setEnabled(false);
+            findViewById(R.id.btStop).setEnabled(true);
+        }//if
     }//onCreate
 
     public void onPlayButtonClick(View view) {
