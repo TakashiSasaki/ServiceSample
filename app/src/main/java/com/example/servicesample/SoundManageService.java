@@ -131,6 +131,10 @@ public class SoundManageService extends Service {
             b.setContentIntent(p)
                     .setAutoCancel(true);
 
+            //サービスをバックグラウンドで実行するのではなくフォアグラウンドで実行する。
+            //バックグラウンドで実行されるサービスはユーザーとのインタラクションができない
+            //サービスをフォアグラウンドで実行すると、ユーザーとのインタラクションができる
+            //ただしマニフェストで明示しておかねばならない。
             startForeground(200, b.build());
 
         }//onPrepared

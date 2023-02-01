@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- startForegroundでサービスをフォアグラウンドで実行するにはこの許可が必要 -->
+    <!-- applicationタグより前に置くことが推奨される -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -34,5 +38,4 @@
                 android:value="" />
         </activity>
     </application>
-
 </manifest>
